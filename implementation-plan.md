@@ -10,7 +10,7 @@
 | # | Phase | Scope | Est. Effort |
 |---|---|---|---|
 | ✅ P0 | Project Setup & Scaffolding | Repo structure, env, dependencies | 0.5 day |
-| P1 | Data Models | Pydantic models for all data objects | 0.5 day |
+| ✅ P1 | Data Models | Pydantic models for all data objects | 0.5 day |
 | P2 | Review Ingestion | Fetch & clean Play Store reviews | 1 day |
 | P3 | LangChain Agent — Clustering | Theme clustering with Gemini | 1 day |
 | P4 | LangChain Agent — Summarisation | Generate `PulseNote` from clusters | 1 day |
@@ -90,12 +90,12 @@ pydantic>=2.0
 
 | Task | File | Status |
 |---|---|---|
-| Define `RawReview` model | `src/models.py` | ⬜ |
-| Define `CleanReview` model | `src/models.py` | ⬜ |
-| Define `Theme` model | `src/models.py` | ⬜ |
-| Define `ClusterResult` model (LangChain output parser target) | `src/models.py` | ⬜ |
-| Define `PulseNote` model | `src/models.py` | ⬜ |
-| Write unit smoke-test: instantiate each model with dummy data | `src/models.py` | ⬜ |
+| Define `RawReview` model | `src/models.py` | ✅ |
+| Define `CleanReview` model | `src/models.py` | ✅ |
+| Define `Theme` model | `src/models.py` | ✅ |
+| Define `ClusterResult` model (LangChain output parser target) | `src/models.py` | ✅ |
+| Define `PulseNote` model | `src/models.py` | ✅ |
+| Write unit smoke-test: instantiate each model with dummy data | `src/models.py` | ✅ |
 
 ### Model Definitions
 
@@ -145,8 +145,8 @@ class PulseNote(BaseModel):
 ```
 
 ### Exit Criteria
-- [ ] All 5 models instantiate without errors
-- [ ] `ClusterResult` and `PulseNote` are importable by `cluster.py` and `summarise.py`
+- [x] All 5 models instantiate without errors
+- [x] `ClusterResult` and `PulseNote` are importable by `cluster.py` and `summarise.py`
 
 ---
 
