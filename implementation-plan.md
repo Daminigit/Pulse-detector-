@@ -9,7 +9,7 @@
 
 | # | Phase | Scope | Est. Effort |
 |---|---|---|---|
-| P0 | Project Setup & Scaffolding | Repo structure, env, dependencies | 0.5 day |
+| ✅ P0 | Project Setup & Scaffolding | Repo structure, env, dependencies | 0.5 day |
 | P1 | Data Models | Pydantic models for all data objects | 0.5 day |
 | P2 | Review Ingestion | Fetch & clean Play Store reviews | 1 day |
 | P3 | LangChain Agent — Clustering | Theme clustering with Gemini | 1 day |
@@ -36,14 +36,14 @@
 
 | Task | File(s) | Status |
 |---|---|---|
-| Create `src/` directory structure | `src/` | ⬜ |
-| Create `output/` directory with `.gitkeep` | `output/.gitkeep` | ⬜ |
-| Write `.gitignore` (`.env`, `__pycache__`, `output/*.json`) | `.gitignore` | ⬜ |
-| Write `.env.example` with all required keys | `.env.example` | ⬜ |
-| Create local `.env` with real API key | `.env` | ⬜ |
-| Write `requirements.txt` | `requirements.txt` | ⬜ |
-| Install dependencies in a virtual environment | `venv/` | ⬜ |
-| Verify imports work (`python -c "import langchain_google_genai"`) | — | ⬜ |
+| Create `src/` directory structure | `src/` | ✅ |
+| Create `output/` directory with `.gitkeep` | `output/.gitkeep` | ✅ |
+| Write `.gitignore` (`.env`, `__pycache__`, `output/*.json`) | `.gitignore` | ✅ |
+| Write `.env.example` with all required keys | `.env.example` | ✅ |
+| Create local `.env` with real API key | `.env` | ✅ |
+| Write `requirements.txt` | `requirements.txt` | ✅ |
+| Install dependencies in a virtual environment | `venv/` | ✅ |
+| Verify imports work (`python -c "import langchain_google_genai"`) | — | ✅ |
 
 ### `.env.example` content
 ```env
@@ -75,10 +75,10 @@ pydantic>=2.0
 ```
 
 ### Exit Criteria
-- [ ] `pip install -r requirements.txt` completes without errors
-- [ ] `.env` loads correctly via `python-dotenv`
-- [ ] All `src/*.py` files exist (even if empty stubs)
-- [ ] `.env` is absent from `git status`
+- [x] `pip install -r requirements.txt` completes without errors
+- [x] `.env` loads correctly via `python-dotenv`
+- [x] All `src/*.py` files exist (even if empty stubs)
+- [x] `.env` is absent from `git status`
 
 ---
 
