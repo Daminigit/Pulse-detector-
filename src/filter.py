@@ -40,9 +40,17 @@ _PHONE_RE = re.compile(
 # ── Thresholds ───────────────────────────────────────────────────────────────
 _MIN_WORDS = 8     # reviews with fewer words are too short to be useful
 
+# Common Hinglish/transliterated words that langdetect often misidentifies as English
+_HINGLISH_RE = re.compile(
+    r"\b(hai|kya|nahi|nahin|hoga|kar|raha|he|ye|bhai|bhi|bahut|acha|kaise|karo|kabhi|hota|karna|toh|nhi|kaunsi|aari|abhi|hamne|kiya|dekhta|hu|kitna)\b",
+    re.IGNORECASE
+)
 
 def _is_english(text: str) -> bool:
     """Return True only if langdetect confidently (>=90%) identifies the text as English."""
+    if _HINGLISH_RE.search(text):
+        return False
+
     try:
         langs = detect_langs(text)
         en_prob = next((l.prob for l in langs if l.lang == "en"), 0.0)
