@@ -1,0 +1,14 @@
+# ── LangChain — agent framework ───────────────────────────────────────────────
+langchain-core>=0.2
+langchain-google-genai>=1.0     # Gemini integration for LangChain
+langgraph>=0.1                  # Optional: model pipeline as a typed state graph
+
+# ── Google Play Store scraper ─────────────────────────────────────────────────
+google-play-scraper>=1.2
+
+# ── MCP client ────────────────────────────────────────────────────────────────
+mcp>=1.0
+
+# ── Config & validation ───────────────────────────────────────────────────────
+python-dotenv>=1.0
+pydantic>=2.0

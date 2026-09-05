@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Environment / secrets — NEVER commit
+.env
+
+# Output artifacts — contain review data, keep local only
+output/*.json
+output/*.md
+
+# IDE
+.vscode/
+.idea/
+*.DS_Store
+
+# Logs
+*.log
