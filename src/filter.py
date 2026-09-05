@@ -20,6 +20,11 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import List
 
+from langdetect import detect_langs, DetectorFactory, LangDetectException
+
+# Make language detection deterministic
+DetectorFactory.seed = 0
+
 from src.models import CleanReview, RawReview
 
 log = logging.getLogger(__name__)
@@ -32,17 +37,18 @@ _PHONE_RE = re.compile(
     r"(\+?\d[\d\s\-]{8,}\d)"
 )
 
-# ── Language heuristic ────────────────────────────────────────────────────────
-# Keeps reviews that are mostly ASCII (English) — simple but fast.
-# No external library required.
-_ASCII_THRESHOLD = 0.75   # at least 75 % of chars must be ASCII
+# ── Thresholds ───────────────────────────────────────────────────────────────
+_MIN_WORDS = 8     # reviews with fewer words are too short to be useful
 
 
 def _is_english(text: str) -> bool:
-    if not text:
+    """Return True only if langdetect confidently (>=90%) identifies the text as English."""
+    try:
+        langs = detect_langs(text)
+        en_prob = next((l.prob for l in langs if l.lang == "en"), 0.0)
+        return en_prob >= 0.90
+    except LangDetectException:
         return False
-    ascii_chars = sum(1 for c in text if ord(c) < 128)
-    return (ascii_chars / len(text)) >= _ASCII_THRESHOLD
 
 
 # ── PII masking ───────────────────────────────────────────────────────────────
@@ -84,7 +90,7 @@ def filter_and_clean(
     seen_hashes: set[str] = set()
     clean: List[CleanReview] = []
 
-    dropped = {"date": 0, "empty": 0, "language": 0, "duplicate": 0}
+    dropped = {"date": 0, "short": 0, "language": 0, "duplicate": 0}
 
     for raw in raw_reviews:
 
@@ -93,10 +99,10 @@ def filter_and_clean(
             dropped["date"] += 1
             continue
 
-        # 2. Empty text filter
+        # 2. Word-count filter — must have at least 8 words
         stripped_text = raw.text.strip() if raw.text else ""
-        if len(stripped_text) < 10:
-            dropped["empty"] += 1
+        if len(stripped_text.split()) < _MIN_WORDS:
+            dropped["short"] += 1
             continue
 
         # 3. Language filter
@@ -131,9 +137,9 @@ def filter_and_clean(
 
     log.info(
         "Filter complete: %d → %d reviews kept "
-        "(dropped: date=%d, empty=%d, lang=%d, dup=%d)",
+        "(dropped: date=%d, short<8words=%d, non-english=%d, dup=%d)",
         total_raw, n_clean,
-        dropped["date"], dropped["empty"], dropped["language"], dropped["duplicate"],
+        dropped["date"], dropped["short"], dropped["language"], dropped["duplicate"],
     )
     log.info("Avg rating (clean): %.2f ★", avg_rating)
 
