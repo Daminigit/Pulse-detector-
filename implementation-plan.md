@@ -11,7 +11,7 @@
 |---|---|---|---|
 | ✅ P0 | Project Setup & Scaffolding | Repo structure, env, dependencies | 0.5 day |
 | ✅ P1 | Data Models | Pydantic models for all data objects | 0.5 day |
-| P2 | Review Ingestion | Fetch & clean Play Store reviews | 1 day |
+| ✅ P2 | Review Ingestion | Fetch & clean Play Store reviews | 1 day |
 | P3 | LangChain Agent — Clustering | Theme clustering with Gemini | 1 day |
 | P4 | LangChain Agent — Summarisation | Generate `PulseNote` from clusters | 1 day |
 | P5 | Google Docs via MCP | Publish pulse to Google Docs | 1 day |
@@ -158,18 +158,18 @@ class PulseNote(BaseModel):
 
 | Task | File | Status |
 |---|---|---|
-| Implement `fetch_reviews(app_id, weeks_back)` using `google-play-scraper` | `src/ingest.py` | ⬜ |
-| Handle pagination until date cutoff is reached | `src/ingest.py` | ⬜ |
-| Map raw scraper output to `RawReview` model | `src/ingest.py` | ⬜ |
-| Implement `filter_and_clean(reviews)` | `src/filter.py` | ⬜ |
-| Date-range filter (drop reviews older than `weeks_back`) | `src/filter.py` | ⬜ |
-| Deduplicate by review text hash | `src/filter.py` | ⬜ |
-| Language filter — keep English only | `src/filter.py` | ⬜ |
-| PII strip — remove `reviewer_name`, `reviewer_id`, `device` | `src/filter.py` | ⬜ |
-| Mask email patterns in text with regex | `src/filter.py` | ⬜ |
-| Assign UUID to each `CleanReview` | `src/filter.py` | ⬜ |
-| Log count + avg rating after filtering | `src/filter.py` | ⬜ |
-| Warn if `< 10` reviews remain | `src/filter.py` | ⬜ |
+| Implement `fetch_reviews(app_id, weeks_back)` using `google-play-scraper` | `src/ingest.py` | ✅ |
+| Handle pagination until date cutoff is reached | `src/ingest.py` | ✅ |
+| Map raw scraper output to `RawReview` model | `src/ingest.py` | ✅ |
+| Implement `filter_and_clean(reviews)` | `src/filter.py` | ✅ |
+| Date-range filter (drop reviews older than `weeks_back`) | `src/filter.py` | ✅ |
+| Deduplicate by review text hash | `src/filter.py` | ✅ |
+| Language filter — keep English only | `src/filter.py` | ✅ |
+| PII strip — remove `reviewer_name`, `reviewer_id`, `device` | `src/filter.py` | ✅ |
+| Mask email patterns in text with regex | `src/filter.py` | ✅ |
+| Assign UUID to each `CleanReview` | `src/filter.py` | ✅ |
+| Log count + avg rating after filtering | `src/filter.py` | ✅ |
+| Warn if `< 10` reviews remain | `src/filter.py` | ✅ |
 
 ### Key Implementation Notes
 
@@ -195,10 +195,10 @@ def strip_pii(text: str) -> str:
 ```
 
 ### Exit Criteria
-- [ ] `fetch_reviews("com.nextbillion.groww", 10)` returns ≥ 1 `RawReview`
-- [ ] `filter_and_clean(raw)` returns `List[CleanReview]` with no `reviewer_name` / `reviewer_id`
-- [ ] Email patterns in text are replaced with `[email]`
-- [ ] Reviews older than `WEEKS_BACK` are excluded
+- [x] `fetch_reviews("com.nextbillion.groww", 10)` returns ≥ 1 `RawReview`
+- [x] `filter_and_clean(raw)` returns `List[CleanReview]` with no `reviewer_name` / `reviewer_id`
+- [x] Email patterns in text are replaced with `[email]`
+- [x] Reviews older than `WEEKS_BACK` are excluded
 
 ---
 
