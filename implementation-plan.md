@@ -12,7 +12,7 @@
 | ✅ P0 | Project Setup & Scaffolding | Repo structure, env, dependencies | 0.5 day |
 | ✅ P1 | Data Models | Pydantic models for all data objects | 0.5 day |
 | ✅ P2 | Review Ingestion | Fetch & clean Play Store reviews | 1 day |
-| P3 | LangChain Agent — Clustering | Theme clustering with Gemini | 1 day |
+| ✅ P3 | LangChain Agent — Clustering | Theme clustering with Gemini | 1 day |
 | P4 | LangChain Agent — Summarisation | Generate `PulseNote` from clusters | 1 day |
 | P5 | Google Docs via MCP | Publish pulse to Google Docs | 1 day |
 | P6 | Gmail via MCP | Create draft email | 0.5 day |
@@ -210,15 +210,15 @@ def strip_pii(text: str) -> str:
 
 | Task | File | Status |
 |---|---|---|
-| Write `CLUSTER_SYSTEM_PROMPT` with `{format_instructions}` and `{theme_list}` | `src/prompts.py` | ⬜ |
-| Instantiate `ChatGoogleGenerativeAI` with `temperature=0.3` | `src/cluster.py` | ⬜ |
-| Build `cluster_chain` using LCEL (`prompt \| llm \| parser`) | `src/cluster.py` | ⬜ |
-| Wrap chain with `.with_retry(stop_after_attempt=3)` | `src/cluster.py` | ⬜ |
-| Serialize `CleanReview` texts to JSON for prompt input | `src/cluster.py` | ⬜ |
-| Parse `ClusterResult` and map theme labels back to reviews | `src/cluster.py` | ⬜ |
-| Enforce 5-theme cap (merge smallest if > 5 returned) | `src/cluster.py` | ⬜ |
-| Implement keyword-heuristic fallback if LLM chain fails | `src/cluster.py` | ⬜ |
-| Return `Dict[str, List[CleanReview]]` (theme → reviews) | `src/cluster.py` | ⬜ |
+| Write `CLUSTER_SYSTEM_PROMPT` with `{format_instructions}` and `{theme_list}` | `src/prompts.py` | ✅ |
+| Instantiate `ChatGoogleGenerativeAI` with `temperature=0.3` | `src/cluster.py` | ✅ |
+| Build `cluster_chain` using LCEL (`prompt \| llm \| parser`) | `src/cluster.py` | ✅ |
+| Wrap chain with `.with_retry(stop_after_attempt=3)` | `src/cluster.py` | ✅ |
+| Serialize `CleanReview` texts to JSON for prompt input | `src/cluster.py` | ✅ |
+| Parse `ClusterResult` and map theme labels back to reviews | `src/cluster.py` | ✅ |
+| Enforce 5-theme cap (merge smallest if > 5 returned) | `src/cluster.py` | ✅ |
+| Implement keyword-heuristic fallback if LLM chain fails | `src/cluster.py` | ✅ |
+| Return `Dict[str, List[CleanReview]]` (theme → reviews) | `src/cluster.py` | ✅ |
 
 ### LCEL Chain Pattern
 
@@ -255,10 +255,10 @@ THEMES = [
 ```
 
 ### Exit Criteria
-- [ ] `cluster_themes(clean_reviews)` returns a dict with 1–5 keys
-- [ ] Every `CleanReview` is assigned to exactly one theme
-- [ ] No theme label is outside the `THEMES` list
-- [ ] Chain retries on `429` without crashing
+- [x] `cluster_themes(clean_reviews)` returns a dict with 1–5 keys
+- [x] Every `CleanReview` is assigned to exactly one theme
+- [x] No theme label is outside the `THEMES` list
+- [x] Chain retries on `429` without crashing
 
 ---
 
