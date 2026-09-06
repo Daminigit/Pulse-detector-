@@ -14,13 +14,13 @@ from __future__ import annotations
 import json
 import logging
 import os
-import re
+import time
 from typing import Dict, List
 
 from dotenv import load_dotenv
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_groq import ChatGroq
 
 from src.models import CleanReview, ClusterResult, Theme
 from src.prompts import CLUSTER_SYSTEM_PROMPT, THEMES, THEME_DISPLAY
@@ -29,10 +29,11 @@ load_dotenv()
 log = logging.getLogger(__name__)
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-_BATCH_SIZE  = 50    # reviews per LLM call (safe for Gemini context window)
-_MAX_THEMES  = 5
-_MODEL       = "gemini-2.0-flash"
-_TEMPERATURE = 0.3
+_BATCH_SIZE        = 20    # reviews per LLM call — kept small to respect 8K TPM limit
+_MAX_THEMES        = 5
+_MODEL             = "openai/gpt-oss-120b"  # Groq-hosted OpenAI model (free tier)
+_TEMPERATURE       = 0.3
+_INTER_BATCH_SLEEP = 3     # seconds between batches — respects 30 RPM ceiling
 
 
 # ── LangChain chain setup ─────────────────────────────────────────────────────
@@ -46,10 +47,10 @@ def _build_chain():
         ("human",  "{reviews_json}"),
     ])
 
-    llm = ChatGoogleGenerativeAI(
+    llm = ChatGroq(
         model=_MODEL,
         temperature=_TEMPERATURE,
-        google_api_key=os.getenv("GEMINI_API_KEY"),
+        groq_api_key=os.getenv("GROQ_API_KEY"),
     ).with_retry(stop_after_attempt=3)
 
     return prompt | llm | parser, parser
@@ -136,6 +137,11 @@ def _llm_cluster(reviews: List[CleanReview]) -> Dict[str, str]:
 
         all_assignments.update(result.assignments)
         log.info("  Batch %d done. Running total: %d assignments.", idx, len(all_assignments))
+
+        # Rate-limit: 30 RPM / 8K TPM — pause between batches
+        if idx < len(batches):
+            log.debug("  Sleeping %ds to respect Groq rate limits…", _INTER_BATCH_SLEEP)
+            time.sleep(_INTER_BATCH_SLEEP)
 
     # Any reviews not in the LLM response get the fallback theme
     for r in reviews:
