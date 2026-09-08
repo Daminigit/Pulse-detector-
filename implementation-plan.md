@@ -13,7 +13,7 @@
 | ✅ P1 | Data Models | Pydantic models for all data objects | 0.5 day |
 | ✅ P2 | Review Ingestion | Fetch & clean Play Store reviews | 1 day |
 | ✅ P3 | LangChain Agent — Clustering | Theme clustering with Gemini | 1 day |
-| P4 | LangChain Agent — Summarisation | Generate `PulseNote` from clusters | 1 day |
+| ✅ P4 | LangChain Agent — Summarisation | Generate `PulseNote` from clusters | 1 day |
 | P5 | Google Docs via MCP | Publish pulse to Google Docs | 1 day |
 | P6 | Gmail via MCP | Create draft email | 0.5 day |
 | P7 | Orchestrator & End-to-End Pipeline | Wire all stages in `main.py` | 0.5 day |
@@ -270,14 +270,14 @@ THEMES = [
 
 | Task | File | Status |
 |---|---|---|
-| Write `SUMMARISE_SYSTEM_PROMPT` with `{format_instructions}` | `src/prompts.py` | ⬜ |
-| Build `summarise_chain` using LCEL (`prompt \| llm \| parser`) | `src/summarise.py` | ⬜ |
-| Set `temperature=0.7` for creative action ideas | `src/summarise.py` | ⬜ |
-| Select top 3 themes by review count before passing to LLM | `src/summarise.py` | ⬜ |
-| Pass themed clusters as JSON to the prompt | `src/summarise.py` | ⬜ |
-| Validate word count post-generation (≤ 250 words) | `src/summarise.py` | ⬜ |
-| Re-prompt with trim instruction if word count exceeded | `src/summarise.py` | ⬜ |
-| Save `PulseNote` as JSON to `output/pulse_YYYY-MM-DD.json` | `src/summarise.py` | ⬜ |
+| Write `SUMMARISE_SYSTEM_PROMPT` with `{format_instructions}` | `src/prompts.py` | ✅ |
+| Build `summarise_chain` using LCEL (`prompt \| llm \| parser`) | `src/summarise.py` | ✅ |
+| Set `temperature=0.7` for creative action ideas | `src/summarise.py` | ✅ |
+| Select top 3 themes by review count before passing to LLM | `src/summarise.py` | ✅ |
+| Pass themed clusters as JSON to the prompt | `src/summarise.py` | ✅ |
+| Validate word count post-generation (≤ 250 words) | `src/summarise.py` | ✅ |
+| Re-prompt with trim instruction if word count exceeded | `src/summarise.py` | ✅ |
+| Save `PulseNote` as JSON to `output/pulse_YYYY-MM-DD.json` | `src/summarise.py` | ✅ |
 
 ### Word Count Validation
 
@@ -293,11 +293,11 @@ if word_count(pulse) > 250:
 ```
 
 ### Exit Criteria
-- [ ] `generate_pulse(themed_clusters)` returns a valid `PulseNote`
-- [ ] `PulseNote` has exactly 3 themes, 3 quotes, 3 action ideas
-- [ ] Word count of quotes + action ideas is ≤ 250
-- [ ] Output saved to `output/pulse_YYYY-MM-DD.json`
-- [ ] No PII in quotes (reviewer names absent)
+- [x] `generate_pulse(themed_clusters)` returns a valid `PulseNote`
+- [x] `PulseNote` has exactly 3 themes, 3 quotes, 3 action ideas
+- [x] Word count of quotes + action ideas is ≤ 250
+- [x] Output saved to `output/pulse_YYYY-MM-DD.json`
+- [x] No PII in quotes (reviewer names absent)
 
 ---
 
