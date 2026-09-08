@@ -22,7 +22,7 @@ from typing import Dict, List
 from dotenv import load_dotenv
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_groq import ChatGroq
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 from src.models import CleanReview, PulseNote, Theme
 from src.prompts import SUMMARISE_SYSTEM_PROMPT, THEME_DISPLAY
@@ -31,7 +31,7 @@ load_dotenv()
 log = logging.getLogger(__name__)
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-_MODEL            = "openai/gpt-oss-120b"
+_MODEL            = "gemini-2.0-flash"   # Gemini for summarisation (P4)
 _TEMPERATURE      = 0.7    # higher for creative, grounded action ideas
 _TOP_N_THEMES     = 3      # only top 3 themes passed to the LLM
 _SAMPLE_PER_THEME = 8      # representative reviews per theme sent in prompt
@@ -155,10 +155,10 @@ def _invoke_chain(
         ("human",  "{clusters_json}"),
     ])
 
-    llm = ChatGroq(
+    llm = ChatGoogleGenerativeAI(
         model=_MODEL,
         temperature=_TEMPERATURE,
-        groq_api_key=os.getenv("GROQ_API_KEY"),
+        google_api_key=os.getenv("GEMINI_API_KEY"),
     ).with_retry(stop_after_attempt=3)
 
     chain = prompt | llm | parser

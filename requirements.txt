@@ -1,7 +1,9 @@
 # ── LangChain — agent framework ───────────────────────────────────────────────
 langchain-core>=0.2
-langchain-groq>=1.1        # Groq integration (free tier: openai/gpt-oss-120b)
-langgraph>=0.1             # Optional: model pipeline as a typed state graph
+langchain-groq>=1.1           # P3 Clustering  (Groq: openai/gpt-oss-120b)
+langchain-google-genai>=1.0   # P4 Summarisation (Gemini: gemini-2.0-flash)
+langgraph>=0.1                # Optional: model pipeline as a typed state graph
+
 
 
 # ── Google Play Store scraper ─────────────────────────────────────────────────
