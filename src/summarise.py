@@ -31,7 +31,7 @@ load_dotenv()
 log = logging.getLogger(__name__)
 
 # ── Constants ─────────────────────────────────────────────────────────────────
-_MODEL            = "gemini-2.0-flash"   # Gemini for summarisation (P4)
+_MODEL            = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")  # configurable via .env
 _TEMPERATURE      = 0.7    # higher for creative, grounded action ideas
 _TOP_N_THEMES     = 3      # only top 3 themes passed to the LLM
 _SAMPLE_PER_THEME = 8      # representative reviews per theme sent in prompt

@@ -31,7 +31,7 @@ log = logging.getLogger(__name__)
 # ── Constants ─────────────────────────────────────────────────────────────────
 _BATCH_SIZE        = 15    # reviews per call — ~2.5K tokens each → 3 calls/min within 8K TPM
 _MAX_THEMES        = 5
-_MODEL             = "openai/gpt-oss-120b"  # Groq-hosted OpenAI model (free tier)
+_MODEL             = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")  # configurable via .env
 _TEMPERATURE       = 0.3
 _INTER_BATCH_SLEEP = 22    # seconds — keeps token rate safely under 8K/min (2.5K × 3 = 7.5K)
 
