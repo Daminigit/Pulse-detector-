@@ -30,12 +30,14 @@ from src.prompts import SUMMARISE_SYSTEM_PROMPT, THEME_DISPLAY
 load_dotenv()
 log = logging.getLogger(__name__)
 
-# ── Constants ─────────────────────────────────────────────────────────────────
-_MODEL            = os.getenv("GEMINI_MODEL", "gemini-3.6-flash")  # configurable via .env
-_TEMPERATURE      = 0.7    # higher for creative, grounded action ideas
-_TOP_N_THEMES     = 3      # only top 3 themes passed to the LLM
-_SAMPLE_PER_THEME = 8      # representative reviews per theme sent in prompt
-_MAX_WORDS        = 250
+# ── Constants (all configurable via .env) ────────────────────────────────────────────────
+load_dotenv()   # reload so module-level constants pick up any late .env changes
+
+_MODEL            = os.getenv("GEMINI_MODEL",          "gemini-3.6-flash")  # configurable via .env
+_TEMPERATURE      = float(os.getenv("GEMINI_TEMPERATURE", "0.7"))   # higher = creative ideas
+_TOP_N_THEMES     = int(os.getenv("MAX_THEMES",           "3"))     # top N themes to summarise
+_SAMPLE_PER_THEME = int(os.getenv("GEMINI_SAMPLE_PER_THEME", "8")) # reviews sampled per theme
+_MAX_WORDS        = int(os.getenv("GEMINI_MAX_WORDS",     "250"))   # hard cap on PulseNote
 _MAX_TRIM_RETRIES = 2
 
 
